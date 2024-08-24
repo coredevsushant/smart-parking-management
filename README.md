@@ -170,11 +170,11 @@ dotnet lambda package *.csproj -o bin/package.zip
    - In the **Publish message** form:
      - **Message body:** Enter a JSON payload for testing, e.g.:
        ```json
-{
-  "EventType": "CarEntry",
-  "CarId": "MH05SR7",
-  "EntryTime": "2024-08-11T08:30:00Z"
-}
+       {
+         "EventType": "CarEntry",
+         "CarId": "MH05SR7",
+         "EntryTime": "2024-08-11T08:30:00Z"
+       }
        ```
 
 ## Step 8: Monitor CloudWatch Logs
