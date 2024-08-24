@@ -74,8 +74,72 @@ Before you begin, make sure you have the following:
      "EventType": ["CarExit"]
    }
    ```
+## Step 4: Configure Access Policy for Each Queue
 
-## Step 4: Create IAM Role for Lambda Functions
+To allow the `ParkingEvent` SNS topic to send messages to your SQS queues, you need to configure the access policy for each queue.
+
+1. **Navigate to the SQS Console:**
+   - Go to the **Amazon SQS Console**.
+   - Ensure the **Region** is set to **Asia Pacific (Mumbai) ap-south-1**.
+
+2. **Select `CarExitQueue`:**
+   - Choose the **CarExitQueue** from the list of SQS queues.
+   - Go to the **Permissions** tab.
+   - Click on **Edit policy**.
+
+3. **Add the Access Policy:**
+   - In the policy editor, add the following JSON policy:
+   
+     ```json
+     {
+       "Sid": "Stmt1724523688641",
+       "Effect": "Allow",
+       "Principal": {
+         "Service": "sns.amazonaws.com"
+       },
+       "Action": "sqs:SendMessage",
+       "Resource": "<arn of queue>",
+       "Condition": {
+         "ArnEquals": {
+           "aws:SourceArn": "<arn of sns>"
+         }
+       }
+     }
+     ```
+
+   - Replace `<arn of queue>` with the ARN of the `CarExitQueue`.
+   - Replace `<arn of sns>` with the ARN of the `ParkingEvent` SNS Topic.
+
+4. **Save Changes:**
+   - After replacing the placeholders with the actual ARNs, save the policy.
+
+5. **Repeat for Other Queues:**
+   - Repeat the above steps for `CarEntryQueue` and `ParkingSpaceUpdateQueue`:
+     - Replace `<arn of queue>` with the ARN of `CarEntryQueue` or `ParkingSpaceUpdateQueue`.
+     - Use the same `<arn of sns>` for the `ParkingEvent` SNS Topic.
+
+6. **Verify the Policy:**
+   - Ensure that each SQS queue (`CarEntryQueue`, `CarExitQueue`, `ParkingSpaceUpdateQueue`) has the correct policy allowing the `ParkingEvent` SNS topic to send messages.
+
+### Example of the Final Policy for `CarExitQueue`:
+
+```json
+{
+  "Sid": "Stmt1724523688641",
+  "Effect": "Allow",
+  "Principal": {
+    "Service": "sns.amazonaws.com"
+  },
+  "Action": "sqs:SendMessage",
+  "Resource": "arn:aws:sqs:ap-south-1:123456789012:CarExitQueue",
+  "Condition": {
+    "ArnEquals": {
+      "aws:SourceArn": "arn:aws:sns:ap-south-1:123456789012:ParkingEvent"
+    }
+  }
+}
+```
+## Step 5: Create IAM Role for Lambda Functions
 
 1. Navigate to the **IAM Console**.
 2. Click on **Roles** and then **Create role**.
@@ -86,9 +150,9 @@ Before you begin, make sure you have the following:
    - **AmazonSNSFullAccess**
 5. Name the role `CarParkingLambdaRole` and click **Create role**.
 
-## Step 5: Create Lambda Functions
+## Step 6: Create Lambda Functions
 
-### 5.1 Car Entry Lambda Function
+### 6.1 Car Entry Lambda Function
 
 1. Navigate to the **AWS Lambda Console**.
 2. Click on **Create function**.
@@ -98,16 +162,16 @@ Before you begin, make sure you have the following:
 6. Under **Permissions**, choose the IAM role created earlier (`CarParkingLambdaRole`).
 7. Click **Create function**.
 
-### 5.2 Car Exit Lambda Function
+### 6.2 Car Exit Lambda Function
 1. Repeat the steps to create another function, but name it `CarExitLambda`.
 
-### 5.3 Parking Space Update Lambda Function
+### 6.3 Parking Space Update Lambda Function
 1. Repeat the steps to create another function, but name it `ParkingSpaceUpdateLambda`.
 
-### 5.4 Write the Lambda Function Code
+### 6.4 Write the Lambda Function Code
 Refer src folder
 
-### 5.5 Create a ZIP File for the Lambda Deployment
+### 6.5 Create a ZIP File for the Lambda Deployment
 
 1. Install Amazon.Lambda.Tools Global Tools if not already installed.
 ```
@@ -125,7 +189,7 @@ If already installed check if new version is available.
 dotnet lambda package *.csproj -o bin/package.zip
 ```
 
-### 5.6 Upload the ZIP File to Lambda
+### 6.6 Upload the ZIP File to Lambda
 
 1. Go back to the **Lambda Console**.
 2. In the **Code** tab, click on **Upload from** and select **.zip file**.
@@ -140,22 +204,22 @@ dotnet lambda package *.csproj -o bin/package.zip
 7. **Save Changes**:
    - Click **Save** to apply the new handler settings.
 
-## Step 6: Configure Triggers for Lambda Functions
+## Step 7: Configure Triggers for Lambda Functions
 
-### 6.1 Car Entry Queue Trigger
+### 7.1 Car Entry Queue Trigger
 
 1. In the **CarEntryLambda** Lambda function, go to the **Configuration** tab.
 2. Click on **Add Trigger**.
 3. Select **SQS** and choose the `CarEntryQueue`.
 4. Click **Add**.
 
-### 6.2 Car Exit Queue Trigger
+### 7.2 Car Exit Queue Trigger
 1. Repeat the steps to add a trigger to the `CarExitLambda` for the `CarExitQueue`.
 
-### 6.3 Parking Space Update Queue Trigger
+### 7.3 Parking Space Update Queue Trigger
 1. Repeat the steps to add a trigger to the `ParkingSpaceUpdateLambda` for the `ParkingSpaceUpdateQueue`.
 
-## Step 7: Test the Setup
+## Step 8: Test the Setup
 
 ### 1. Publish a Test Message to the ParkingEvents SNS Topic
 
@@ -177,13 +241,13 @@ dotnet lambda package *.csproj -o bin/package.zip
        }
        ```
 
-## Step 8: Monitor CloudWatch Logs
+## Step 9: Monitor CloudWatch Logs
 
 1. Navigate to **CloudWatch** in the AWS Console.
 2. Go to **Logs** and select the log group for your Lambda function (e.g., `/aws/lambda/CarEntryLambda`).
 3. Review the logs to verify that events are processed correctly and that no errors occurred.
 
-## Step 9: Clean Up Resources
+## Step 10: Clean Up Resources
 
 After testing, clean up the resources to avoid unnecessary charges:
 
