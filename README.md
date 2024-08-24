@@ -50,11 +50,30 @@ Before you begin, make sure you have the following:
 ## Step 3: Subscribe SQS Queues to the SNS Topic
 
 1. Go back to the **Amazon SNS Console**.
-2. Select the **ParkingEvents** topic.
-3. Under the **Subscriptions** tab, click **Create subscription**.
+2. Under the **Subscriptions** tab, click **Create subscription**.
+3. For **Topic ARN**, choose **`ParkingEvent`**.
 4. For **Protocol**, choose **SQS**.
 5. For **Endpoint**, select the ARN of `CarEntryQueue`.
-6. Repeat these steps to create subscriptions for `CarExitQueue` and `ParkingSpaceUpdateQueue`.
+6. In the **Subscription filter policy** section, add the following JSON to filter messages based on the `EventType`:
+
+   ```json
+   {
+     "EventType": ["CarEntry"]
+   }
+   ```
+7. Click Create subscription to complete the setup.
+8. Repeat these steps to create a subscription for ParkingSpaceUpdateQueue, with the following filter policy:
+   ```json
+   {
+  "EventType": ["ParkingSpaceUpdate"]
+   }
+   ```
+9. Repeat these steps to create a subscription for CarExitQueue, with the following filter policy:
+   ```json
+   {
+  "EventType": ["CarExit"]
+   }
+   ```
 
 ## Step 4: Create IAM Role for Lambda Functions
 
@@ -65,8 +84,7 @@ Before you begin, make sure you have the following:
    - **AmazonSQSFullAccess**
    - **AWSLambdaBasicExecutionRole**
    - **AmazonSNSFullAccess**
-   - **AmazonDynamoDBFullAccess** (if interacting with DynamoDB)
-5. Name the role (e.g., `CarParkingLambdaRole`) and click **Create role**.
+5. Name the role `CarParkingLambdaRole` and click **Create role**.
 
 ## Step 5: Create Lambda Functions
 
