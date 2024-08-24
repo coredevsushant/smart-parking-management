@@ -157,9 +157,25 @@ dotnet lambda package *.csproj -o bin/package.zip
 
 ## Step 7: Test the Setup
 
-1. Publish a test message to the `ParkingEvents` SNS topic with the `EventType` attribute set to `"CarEntry"`, `"CarExit"`, or `"ParkingSpaceUpdate"`.
-2. Ensure the message is routed to the correct SQS queue and processed by the corresponding Lambda function.
-3. Check **CloudWatch Logs** for each Lambda function to verify the event payload and processing results.
+### 1. Publish a Test Message to the ParkingEvents SNS Topic
+
+1. **Navigate to the SNS Dashboard:**
+
+2. **Select the Topic:**
+   - In the SNS dashboard, click on **Topics** in the left-hand navigation pane.
+   - Find and select the **ParkingEvents** topic from the list.
+
+3. **Publish a Message:**
+   - Click the **Publish message** button.
+   - In the **Publish message** form:
+     - **Message body:** Enter a JSON payload for testing, e.g.:
+       ```json
+{
+  "EventType": "CarEntry",
+  "CarId": "MH05SR7",
+  "EntryTime": "2024-08-11T08:30:00Z"
+}
+       ```
 
 ## Step 8: Monitor CloudWatch Logs
 
