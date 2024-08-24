@@ -4,6 +4,8 @@
 
 This guide will walk you through setting up a Car Parking Management System using AWS services. The system leverages Amazon SNS (Simple Notification Service), Amazon SQS (Simple Queue Service), and AWS Lambda to manage and process parking events, such as car entries, exits, and parking space updates. The guide will also cover testing the setup, monitoring logs in CloudWatch, and cleaning up resources afterward.
 
+![Parking System](ParkingSystem.png "Parking System")
+
 ## Use Case
 
 ### Scenario
