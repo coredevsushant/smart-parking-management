@@ -104,6 +104,42 @@ Before you begin, make sure you have the following:
 ### 5.3 Parking Space Update Lambda Function
 1. Repeat the steps to create another function, but name it `ParkingSpaceUpdateLambda`.
 
+### 5.4 Write the Lambda Function Code
+Refer src folder
+
+### 5.5 Create a ZIP File for the Lambda Deployment
+
+1. Install Amazon.Lambda.Tools Global Tools if not already installed.
+```
+    dotnet tool install -g Amazon.Lambda.Tools
+```
+
+If already installed check if new version is available.
+```
+    dotnet tool update -g Amazon.Lambda.Tools
+```
+
+2. Run following command where your csproj file is stored in command prompt
+   
+```
+dotnet lambda package *.csproj -o bin/package.zip
+```
+
+### 5.6 Upload the ZIP File to Lambda
+
+1. Go back to the **Lambda Console**.
+2. In the **Code** tab, click on **Upload from** and select **.zip file**.
+3. Choose the ZIP file you created.
+4. Click **Save** to deploy the function.
+
+#### Edit Runtime Settings
+
+5. After the upload, navigate to the **Runtime settings** section under the **Code** tab.
+6. **Set the Handler**:
+   - Enter the handler as `"ParkingEventProcessorLambda::ParkingEventProcessorLambda.Function::FunctionHandler"`.
+7. **Save Changes**:
+   - Click **Save** to apply the new handler settings.
+
 ## Step 6: Configure Triggers for Lambda Functions
 
 ### 6.1 Car Entry Queue Trigger
