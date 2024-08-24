@@ -73,31 +73,31 @@ Before you begin, make sure you have the following:
 1. Navigate to the **AWS Lambda Console**.
 2. Click on **Create function**.
 3. Choose **Author from scratch**.
-4. Enter a **Function name** (e.g., `CarEntryHandler`).
+4. Enter a **Function name** (e.g., `CarEntryLambda`).
 5. Select **.NET Core 8** as the runtime.
 6. Under **Permissions**, choose the IAM role created earlier (`CarParkingLambdaRole`).
 7. Click **Create function**.
 
 ### 5.2 Car Exit Lambda Function
-1. Repeat the steps to create another function, but name it `CarExitHandler`.
+1. Repeat the steps to create another function, but name it `CarExitLambda`.
 
 ### 5.3 Parking Space Update Lambda Function
-1. Repeat the steps to create another function, but name it `ParkingSpaceUpdateHandler`.
+1. Repeat the steps to create another function, but name it `ParkingSpaceUpdateLambda`.
 
 ## Step 6: Configure Triggers for Lambda Functions
 
 ### 6.1 Car Entry Queue Trigger
 
-1. In the **CarEntryHandler** Lambda function, go to the **Configuration** tab.
+1. In the **CarEntryLambda** Lambda function, go to the **Configuration** tab.
 2. Click on **Add Trigger**.
 3. Select **SQS** and choose the `CarEntryQueue`.
 4. Click **Add**.
 
 ### 6.2 Car Exit Queue Trigger
-1. Repeat the steps to add a trigger to the `CarExitHandler` for the `CarExitQueue`.
+1. Repeat the steps to add a trigger to the `CarExitLambda` for the `CarExitQueue`.
 
 ### 6.3 Parking Space Update Queue Trigger
-1. Repeat the steps to add a trigger to the `ParkingSpaceUpdateHandler` for the `ParkingSpaceUpdateQueue`.
+1. Repeat the steps to add a trigger to the `ParkingSpaceUpdateLambda` for the `ParkingSpaceUpdateQueue`.
 
 ## Step 7: Test the Setup
 
@@ -108,14 +108,14 @@ Before you begin, make sure you have the following:
 ## Step 8: Monitor CloudWatch Logs
 
 1. Navigate to **CloudWatch** in the AWS Console.
-2. Go to **Logs** and select the log group for your Lambda function (e.g., `/aws/lambda/CarEntryHandler`).
+2. Go to **Logs** and select the log group for your Lambda function (e.g., `/aws/lambda/CarEntryLambda`).
 3. Review the logs to verify that events are processed correctly and that no errors occurred.
 
 ## Step 9: Clean Up Resources
 
 After testing, clean up the resources to avoid unnecessary charges:
 
-1. **Delete the Lambda Functions**: Go to the **Lambda Console** and delete `CarEntryHandler`, `CarExitHandler`, and `ParkingSpaceUpdateHandler`.
+1. **Delete the Lambda Functions**: Go to the **Lambda Console** and delete `CarEntryLambda`, `CarExitLambda`, and `ParkingSpaceUpdateLambda`.
 2. **Delete the SQS Queues**: Go to the **SQS Console** and delete `CarEntryQueue`, `CarExitQueue`, and `ParkingSpaceUpdateQueue`.
 3. **Delete the SNS Topic**: Go to the **SNS Console** and delete the `ParkingEvents` topic.
 4. **Delete the IAM Role**: Go to the **IAM Console** and delete the `CarParkingLambdaRole` role.
