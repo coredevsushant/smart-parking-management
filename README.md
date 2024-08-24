@@ -65,13 +65,13 @@ Before you begin, make sure you have the following:
 8. Repeat these steps to create a subscription for ParkingSpaceUpdateQueue, with the following filter policy:
    ```json
    {
-  "EventType": ["ParkingSpaceUpdate"]
+     "EventType": ["ParkingSpaceUpdate"]
    }
    ```
 9. Repeat these steps to create a subscription for CarExitQueue, with the following filter policy:
    ```json
    {
-  "EventType": ["CarExit"]
+     "EventType": ["CarExit"]
    }
    ```
 
