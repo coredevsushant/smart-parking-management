@@ -134,7 +134,7 @@ To allow the `ParkingEvent` SNS topic to send messages to your SQS queues, you n
   "Resource": "arn:aws:sqs:ap-south-1:123456789012:CarExitQueue",
   "Condition": {
     "ArnEquals": {
-      "aws:SourceArn": "arn:aws:sns:ap-south-1:123456789012:ParkingEvent"
+      "aws:SourceArn": "arn:aws:sns:ap-south-1:123456789012:ParkingEvents"
     }
   }
 }
