@@ -54,21 +54,22 @@ Before you begin, make sure you have the following:
 3. For **Topic ARN**, choose **`ParkingEvent`**.
 4. For **Protocol**, choose **SQS**.
 5. For **Endpoint**, select the ARN of `CarEntryQueue`.
-6. In the **Subscription filter policy** section, add the following JSON to filter messages based on the `EventType`:
+6. Checked checkbox **Enable raw message delivery**
+7. In the **Subscription filter policy** section, add the following JSON to filter messages based on the `EventType`:
 
    ```json
    {
      "EventType": ["CarEntry"]
    }
    ```
-7. Click Create subscription to complete the setup.
-8. Repeat these steps to create a subscription for ParkingSpaceUpdateQueue, with the following filter policy:
+8. Click Create subscription to complete the setup.
+9. Repeat these steps to create a subscription for ParkingSpaceUpdateQueue, with the following filter policy:
    ```json
    {
      "EventType": ["ParkingSpaceUpdate"]
    }
    ```
-9. Repeat these steps to create a subscription for CarExitQueue, with the following filter policy:
+10. Repeat these steps to create a subscription for CarExitQueue, with the following filter policy:
    ```json
    {
      "EventType": ["CarExit"]
@@ -269,7 +270,7 @@ After testing, clean up the resources to avoid unnecessary charges:
 }
 ```
 
-### 2. Car Entry Event (`CarEntry`)
+### 2. Car Exit Event (`CarExit`)
 ```json
 {
   "EventType": "CarExit",
